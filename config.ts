@@ -20,4 +20,10 @@ export const safesToUpdate: SingleSafeConfig[] = [
     newThreshold: 1,
     newOwners: owners,
   },
+  {
+    safe: "0xDAec33641865E4651fB43181C6DB6f7232Ee91c2",
+    network: "Lens",
+    newThreshold: 1,
+    newOwners: owners,
+  }
 ];

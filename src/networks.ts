@@ -8,7 +8,8 @@ export type SupportedNetworks =
   | "Optimism"
   | "Avalanche"
   | "Arbitrum One"
-  | "Base";
+  | "Base"
+  | "Lens";
 
 export function getRpc(network: SupportedNetworks): string {
   // For more information about the RPC nodes: https://chainlist.org/
@@ -33,6 +34,8 @@ export function getRpc(network: SupportedNetworks): string {
       return "https://mainnet.optimism.io"
     case "Avalanche":
       return "https://api.avax.network/ext/bc/C/rpc"
+    case "Lens":
+        return "https://rpc.lens.xyz";
     default:
       throw new Error(`Invalid network ${network}`);
   }
