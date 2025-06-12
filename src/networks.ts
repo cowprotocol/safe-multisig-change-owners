@@ -35,7 +35,7 @@ export function getRpc(network: SupportedNetworks): string {
     case "Avalanche":
       return "https://api.avax.network/ext/bc/C/rpc"
     case "Lens":
-        return "https://rpc.lens.xyz";
+      return "https://rpc.lens.xyz";
     default:
       throw new Error(`Invalid network ${network}`);
   }
