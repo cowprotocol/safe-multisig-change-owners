@@ -20,7 +20,8 @@ rpc.mevblocker.io,\
 rpc.gnosischain.com,\
 ethereum-sepolia.publicnode.com,\
 arbitrum-one-rpc.publicnode.com,\
-base.llamarpc.com" \
+base.llamarpc.com,\
+rpc.lens.xyz" \
   -- \
   "$base_path/replace-owners.ts" \
   "$@"

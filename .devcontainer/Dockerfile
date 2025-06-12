@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 mcr.microsoft.com/vscode/devcontainers/base:0-bullseye
+FROM --platform=linux/amd64 mcr.microsoft.com/vscode/devcontainers/base:1-bullseye
 
 ENV DENO_INSTALL=/deno
 RUN mkdir -p /deno \
