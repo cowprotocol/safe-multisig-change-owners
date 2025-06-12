@@ -11,7 +11,9 @@ const OUT_DIR = "./out";
 
 try {
   await Deno.remove(OUT_DIR, { recursive: true });
-} catch (_) { /* directory may not exist */ }
+} catch (_) {
+  /* directory may not exist */
+}
 await Deno.mkdir(OUT_DIR);
 for (const { safe, newOwners, network, newThreshold } of safesToUpdate) {
   await Deno.writeTextFile(
@@ -32,9 +34,12 @@ interface Config {
   newThreshold?: number;
 }
 
-async function computeTxBuilderFile(
-  { safeAddress, rpc, newOwners, newThreshold }: Config,
-): Promise<string> {
+async function computeTxBuilderFile({
+  safeAddress,
+  rpc,
+  newOwners,
+  newThreshold,
+}: Config): Promise<string> {
   // https://etherscan.io/address/0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552#code#F6#L94
   const safeAbi = [
     "function getOwners() public view returns (address[] memory)",
@@ -58,28 +63,20 @@ async function computeTxBuilderFile(
     list.some((owner) => isSameAddress(searchTarget, owner));
 
   const ownersKept = currentOwners.filter((addr) =>
-    hasAddress(newOwners, addr)
+    hasAddress(newOwners, addr),
   );
-  const ownersToRemove = currentOwners.filter((addr) =>
-    !hasAddress(newOwners, addr)
+  const ownersToRemove = currentOwners.filter(
+    (addr) => !hasAddress(newOwners, addr),
   );
   const ownersToAdd = newOwners.filter((addr) => !hasAddress(ownersKept, addr));
 
-  assertEquals(
-    ownersKept.length + ownersToRemove.length,
-    currentOwners.length,
-  );
-  assertEquals(
-    ownersKept.length + ownersToAdd.length,
-    newOwners.length,
-  );
+  assertEquals(ownersKept.length + ownersToRemove.length, currentOwners.length);
+  assertEquals(ownersKept.length + ownersToAdd.length, newOwners.length);
   assert(
     newOwners.length >= Number(currentThreshold),
     "Code uses current threshold for adding and removing solvers",
   );
-  assert(
-    newThreshold === undefined || newOwners.length >= newThreshold,
-  );
+  assert(newThreshold === undefined || newOwners.length >= newThreshold);
 
   const replacements: { oldOwner: string; newOwner: string }[] = [];
   const removed: string[] = [];
@@ -120,54 +117,44 @@ async function computeTxBuilderFile(
   const removeSubTxs = removed.reverse().map((removedOwner) => ({
     to: safe.address,
     value: "0",
-    data: safe.interface.encodeFunctionData(
-      "removeOwner",
-      [
-        prevOwnerWithNoChanges(removedOwner),
-        removedOwner,
-        currentThreshold,
-      ],
-    ),
+    data: safe.interface.encodeFunctionData("removeOwner", [
+      prevOwnerWithNoChanges(removedOwner),
+      removedOwner,
+      currentThreshold,
+    ]),
   }));
-  const replaceSubTxs = replacements.reverse().map((
-    { oldOwner, newOwner },
-  ) => ({
-    to: safe.address,
-    value: "0",
-    data: safe.interface.encodeFunctionData(
-      "swapOwner",
-      [
+  const replaceSubTxs = replacements
+    .reverse()
+    .map(({ oldOwner, newOwner }) => ({
+      to: safe.address,
+      value: "0",
+      data: safe.interface.encodeFunctionData("swapOwner", [
         prevOwnerWithNoChanges(oldOwner),
         oldOwner,
         newOwner,
-      ],
-    ),
-  }));
+      ]),
+    }));
   // Adding doesn't need a previous owner so there is no need to reverse.
   const addedSubTxs = added.map((addedOwner) => ({
     to: safe.address,
     value: "0",
-    data: safe.interface.encodeFunctionData(
-      "addOwnerWithThreshold",
-      [
-        addedOwner,
-        currentThreshold,
-      ],
-    ),
+    data: safe.interface.encodeFunctionData("addOwnerWithThreshold", [
+      addedOwner,
+      currentThreshold,
+    ]),
   }));
   const changeThresholdTxs =
-    (newThreshold === undefined) || (newThreshold === currentThreshold)
+    newThreshold === undefined || newThreshold === currentThreshold
       ? []
-      : [{
-        to: safe.address,
-        value: "0",
-        data: safe.interface.encodeFunctionData(
-          "changeThreshold",
-          [
-            newThreshold,
-          ],
-        ),
-      }];
+      : [
+          {
+            to: safe.address,
+            value: "0",
+            data: safe.interface.encodeFunctionData("changeThreshold", [
+              newThreshold,
+            ]),
+          },
+        ];
   const transactions = [
     // We first processed replacements, then removals. Also this needs to be reversed.
     ...removeSubTxs,
@@ -187,9 +174,9 @@ async function computeTxBuilderFile(
     createdAt: new Date().getTime(),
     meta: {
       name: `Change owners of safe ${safe.address}`,
-      description: `Swaps and removes owners until the remaining owners are ${
-        newOwners.join(", ")
-      }`,
+      description: `Swaps and removes owners until the remaining owners are ${newOwners.join(
+        ", ",
+      )}`,
     },
     transactions,
   };
