@@ -34,3 +34,13 @@ The resulting output can be found in `./out`.
 ## Limitations
 
 See `./src/networks.ts` for a full list of supported networks.
+
+## Development
+
+### Code formatting
+
+Run the following command to format the code to this project's standards:
+
+```sh
+deno fmt
+```
