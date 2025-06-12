@@ -25,15 +25,15 @@ export function getRpc(network: SupportedNetworks): string {
     case "Arbitrum One":
       return "https://arbitrum-one-rpc.publicnode.com";
     case "Base":
-      return "https://base.llamarpc.com"
+      return "https://base.llamarpc.com";
     case "Bsc":
-      return "https://bsc-dataseed.binance.org"
+      return "https://bsc-dataseed.binance.org";
     case "Polygon":
-      return "https://polygon-rpc.com/"
+      return "https://polygon-rpc.com/";
     case "Optimism":
-      return "https://mainnet.optimism.io"
+      return "https://mainnet.optimism.io";
     case "Avalanche":
-      return "https://api.avax.network/ext/bc/C/rpc"
+      return "https://api.avax.network/ext/bc/C/rpc";
     case "Lens":
       return "https://rpc.lens.xyz";
     default:
