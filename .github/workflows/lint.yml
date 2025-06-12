@@ -1,0 +1,22 @@
+name: Linting
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+
+jobs:
+  lint:
+    name: Lint checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Check deno fmt
+        run: deno fmt --check
