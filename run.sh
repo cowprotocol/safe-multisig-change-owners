@@ -24,7 +24,8 @@ ethereum-sepolia.publicnode.com,\
 arbitrum-one-rpc.publicnode.com,\
 base.llamarpc.com,\
 rpc.lens.xyz,\
-rpc.linea.build" \
+rpc.linea.build,\
+rpc.plasma.to" \
   -- \
   "$base_path/replace-owners.ts" \
   "$@"
