@@ -25,7 +25,8 @@ arbitrum-one-rpc.publicnode.com,\
 base.llamarpc.com,\
 rpc.lens.xyz,\
 rpc.linea.build,\
-rpc.plasma.to" \
+rpc.plasma.to,\
+ink.drpc.org" \
   -- \
   "$base_path/replace-owners.ts" \
   "$@"
