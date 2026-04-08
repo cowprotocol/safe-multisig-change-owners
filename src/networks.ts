@@ -1,3 +1,5 @@
+import importedRpcs from "./rpcs.json" with { type: "json" };
+
 // Network names based on .name in: https://github.com/ethereum-lists/chains/tree/master/_data/chains
 export type SupportedNetworks =
   | "Ethereum Mainnet"
@@ -14,39 +16,18 @@ export type SupportedNetworks =
   | "Plasma"
   | "Ink";
 
+// This line is here to type check the JSON file, so that the compiler throws an
+// error if a network is missing from the JSON object.
+export const rpcs: Record<
+  SupportedNetworks,
+  { url: string; comment?: string }
+> = importedRpcs;
+
 export function getRpc(network: SupportedNetworks): string {
   // For more information about the RPC nodes: https://chainlist.org/
-  switch (network) {
-    case "Ethereum Mainnet":
-      // https://mevblocker.io/#rpc
-      return "https://rpc.mevblocker.io";
-    case "Gnosis":
-      // https://docs.gnosischain.com/tools/rpc/
-      return "https://rpc.gnosischain.com";
-    case "Sepolia":
-      return "https://ethereum-sepolia.publicnode.com";
-    case "Arbitrum One":
-      return "https://arbitrum-one-rpc.publicnode.com";
-    case "Base":
-      return "https://base.llamarpc.com";
-    case "Bsc":
-      return "https://bsc-dataseed.binance.org";
-    case "Polygon":
-      return "https://polygon-rpc.com/";
-    case "Optimism":
-      return "https://mainnet.optimism.io";
-    case "Avalanche":
-      return "https://api.avax.network/ext/bc/C/rpc";
-    case "Lens":
-      return "https://rpc.lens.xyz";
-    case "Linea":
-      return "https://rpc.linea.build";
-    case "Plasma":
-      return "https://rpc.plasma.to";
-    case "Ink":
-      // https://docs.inkonchain.com/tools/rpc
-      return "https://ink.drpc.org";
-    default:
-      throw new Error(`Invalid network ${network}`);
+  const url = rpcs[network].url;
+  if (typeof url != "string") {
+    throw new Error(`Invalid network ${network}`);
   }
+  return url;
 }

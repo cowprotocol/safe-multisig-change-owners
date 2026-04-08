@@ -1,0 +1,24 @@
+{
+  "Ethereum Mainnet": {
+    "comment": "https://mevblocker.io/#rpc",
+    "url": "https://rpc.mevblocker.io"
+  },
+  "Gnosis": {
+    "comment": "https://docs.gnosischain.com/tools/rpc/",
+    "url": "https://rpc.gnosischain.com"
+  },
+  "Sepolia": { "url": "https://ethereum-sepolia.publicnode.com" },
+  "Arbitrum One": { "url": "https://arbitrum-one-rpc.publicnode.com" },
+  "Base": { "url": "https://base.llamarpc.com" },
+  "Bsc": { "url": "https://bsc-dataseed.binance.org" },
+  "Polygon": { "url": "https://1rpc.io/matic" },
+  "Optimism": { "url": "https://mainnet.optimism.io" },
+  "Avalanche": { "url": "https://api.avax.network/ext/bc/C/rpc" },
+  "Lens": { "url": "https://rpc.lens.xyz" },
+  "Linea": { "url": "https://rpc.linea.build" },
+  "Plasma": { "url": "https://rpc.plasma.to" },
+  "Ink": {
+    "comment": "https://ink.drpc.org",
+    "url": "https://docs.inkonchain.com/tools/rpc"
+  }
+}
