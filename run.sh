@@ -4,6 +4,20 @@ set -o errexit -o nounset -o pipefail
 
 base_path="$(dirname "$(realpath -s "$0")")/src"
 
+rpc_file="${base_path}/rpcs.json"
+comma_separated_rpc_base_urls=$(
+  jq --raw-output \
+    '.[]
+       | .url
+         # remove the protocol (like https) by removing everything before `//`
+       | sub(".*//"; "")
+         # only take base URL by removing everything after `/`
+       | sub("/.*"; "")
+    ' "$rpc_file" \
+    | tr '\n' ',' \
+    | head --bytes=-1
+)
+
 # Explanation for the flags:
 # - `NODE_EXTRA_CA_CERTS`: if using ethers npm package and this is denied, the
 #   script errors out with "Error: could not detect network".
@@ -17,16 +31,7 @@ deno run \
   --deny-read \
   --allow-write="./out" \
   --allow-env='NODE_EXTRA_CA_CERTS,WS_NO_BUFFER_UTIL' \
-  --allow-net="\
-rpc.mevblocker.io,\
-rpc.gnosischain.com,\
-ethereum-sepolia.publicnode.com,\
-arbitrum-one-rpc.publicnode.com,\
-base.llamarpc.com,\
-rpc.lens.xyz,\
-rpc.linea.build,\
-rpc.plasma.to,\
-ink.drpc.org" \
+  --allow-net="$comma_separated_rpc_base_urls" \
   -- \
   "$base_path/replace-owners.ts" \
   "$@"
