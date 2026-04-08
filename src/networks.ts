@@ -9,7 +9,10 @@ export type SupportedNetworks =
   | "Avalanche"
   | "Arbitrum One"
   | "Base"
-  | "Lens";
+  | "Lens"
+  | "Linea"
+  | "Plasma"
+  | "Ink";
 
 export function getRpc(network: SupportedNetworks): string {
   // For more information about the RPC nodes: https://chainlist.org/
@@ -36,6 +39,13 @@ export function getRpc(network: SupportedNetworks): string {
       return "https://api.avax.network/ext/bc/C/rpc";
     case "Lens":
       return "https://rpc.lens.xyz";
+    case "Linea":
+      return "https://rpc.linea.build";
+    case "Plasma":
+      return "https://rpc.plasma.to";
+    case "Ink":
+      // https://docs.inkonchain.com/tools/rpc
+      return "https://ink.drpc.org";
     default:
       throw new Error(`Invalid network ${network}`);
   }
