@@ -11,7 +11,8 @@ export type SupportedNetworks =
   | "Base"
   | "Lens"
   | "Linea"
-  | "Plasma";
+  | "Plasma"
+  | "Ink";
 
 export function getRpc(network: SupportedNetworks): string {
   // For more information about the RPC nodes: https://chainlist.org/
@@ -42,6 +43,9 @@ export function getRpc(network: SupportedNetworks): string {
       return "https://rpc.linea.build";
     case "Plasma":
       return "https://rpc.plasma.to";
+    case "Ink":
+      // https://docs.inkonchain.com/tools/rpc
+      return "https://ink.drpc.org";
     default:
       throw new Error(`Invalid network ${network}`);
   }
