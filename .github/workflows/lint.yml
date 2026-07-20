@@ -19,5 +19,8 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Confirm that it builds
+        run: deno check ./src
+
       - name: Check deno fmt
         run: deno fmt --check
